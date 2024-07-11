@@ -21,6 +21,7 @@ def get_org(request):
     if request.method == "GET":
         org_model = OrganizationModel.objects.all()
         serializer = OrganizationSerializer(org_model, many=True)
+        print(serializer.data)
         return Response(serializer.data)
         # return Response(serializer_obj.data, status = status.HTTP_400_BAD_REQUEST )
         
