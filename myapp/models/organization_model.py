@@ -13,12 +13,13 @@ class OrganizationModel(models.Model):
     city = models.CharField(db_column='ORG_CITY', max_length=100)
     phone_num = models.IntegerField(db_column='ORG_PHONE_NUM', max_length=10)
     active = models.CharField(db_column='ACTIVE', max_length=1)
-    created_date = models.DateTimeField(db_column='CREATED_DATE')
-    updated_date = models.DateTimeField(db_column='UPDATED_DATE')
-    created_by = models.CharField(db_column='CREATED_BY', max_length=100)
-    updated_by = models.CharField(db_column='UPDATED_BY', max_length=100)
+    # created_date = models.DateTimeField(db_column='CREATED_DATE')
+    # updated_date = models.DateTimeField(db_column='UPDATED_DATE')
+    # created_by = models.CharField(db_column='CREATED_BY', max_length=100)
+    # updated_by = models.CharField(db_column='UPDATED_BY', max_length=100)
 
     class Meta:
         """ Specifing table name"""
-        db_table = '[ORGANIZATION]'
+        # '"schema"."tablename"'
+        db_table = '"KAYAL"."ORGANIZATION"'
         managed = False
