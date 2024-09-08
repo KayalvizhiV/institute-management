@@ -12,7 +12,7 @@ def create_org(request):
         if serializer_obj.is_valid():
             serializer_obj.save()
             return Response(serializer_obj.data, status = status.HTTP_201_CREATED )
-        return Response(serializer_obj.data, status = status.HTTP_400_BAD_REQUEST )
+        return Response(serializer_obj.errors, status = status.HTTP_400_BAD_REQUEST )
         
 
 @api_view(["GET"])
@@ -20,7 +20,7 @@ def get_org(request):
     if request.method == "GET":
         org_model = OrganizationModel.objects.all()
         serializer = OrganizationSerializer(org_model, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status = 200)
         
 @api_view(["GET"])
 def get_org_by_name(request, name):
@@ -30,7 +30,7 @@ def get_org_by_name(request, name):
             serializer = OrganizationSerializer(org_model, many=True)
             return Response(serializer.data, status = 200)
         except OrganizationModel.DoesNotExist:
-            return Response({'success': False,'message': f"ORG_NAME {name} doesn't exist."}, status=400)
+            return Response({'success': False,'message': f"ORG_NAME {name} doesn't exist."}, serializer.errors,status=400)
 
 @api_view(['GET','PUT','DELETE','PATCH'])
 def get_update_delete_by_id(request,id):
@@ -44,7 +44,7 @@ def get_update_delete_by_id(request,id):
             serializer = OrganizationSerializer(queryset, data = request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response({'result': serializer.data, 'message': 'Updated successfully'}, status = 204)
+                return Response({'result': serializer.data, 'message': 'Updated successfully'},status = 204)
 
         if request.method == 'PATCH':
             serializer = OrganizationSerializer(queryset, data = request.data)
@@ -57,5 +57,5 @@ def get_update_delete_by_id(request,id):
             return Response({'message': 'Deleted successfully'}, status = 204)
         
     except OrganizationModel.DoesNotExist:
-            return Response({'success': False,'message': f"ORG_ID {id} doesn't exist."}, status=400)
+            return Response({'success': False,'message': f"ORG_ID {id} doesn't exist."}, serializer.errors,status=400)
 
